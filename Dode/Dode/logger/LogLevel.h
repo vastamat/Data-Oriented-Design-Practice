@@ -12,6 +12,6 @@ namespace dode
 								Error
 				};
 
-				std::ostream& operator << (std::ostream& _os, const dode::LogLevel& _level);
+				std::ostream& operator << (std::ostream& _OStream, const dode::LogLevel& _Level);
 }
 

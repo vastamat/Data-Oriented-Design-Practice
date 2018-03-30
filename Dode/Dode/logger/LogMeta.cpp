@@ -4,16 +4,16 @@
 
 namespace dode
 {
-				LogMeta::LogMeta(LogLevel _level, std::string _file, uint32_t _line)
-								: level(_level)
-								, file(std::move(_file))
-								, line(_line)
+				LogMeta::LogMeta(LogLevel _Level, std::string _File, uint32_t _Line)
+								: level(_Level)
+								, file(std::move(_File))
+								, line(_Line)
 				{
 				}
 
-				std::ostream & operator<<(std::ostream & _Stream, const LogMeta & _Meta)
+				std::ostream & operator<<(std::ostream & _OStream, const LogMeta & _Meta)
 				{
-								_Stream << "(" << _Meta.file << ":" << _Meta.line << ") " << _Meta.level;
-								return _Stream;
+								_OStream << "(" << _Meta.file << ":" << _Meta.line << ") " << _Meta.level;
+								return _OStream;
 				}
 }

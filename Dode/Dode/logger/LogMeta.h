@@ -6,12 +6,12 @@ namespace dode
 {
 				struct LogMeta
 				{
-								LogMeta(LogLevel _level, std::string _file, uint32_t _line);
+								LogMeta(LogLevel _Level, std::string _File, uint32_t _Line);
 
 								LogLevel level;
 								std::string file;
 								uint32_t line;
 				};
 
-				std::ostream& operator << (std::ostream& _os, const dode::LogMeta& _level);
+				std::ostream& operator << (std::ostream& _OStream, const dode::LogMeta& _Level);
 }

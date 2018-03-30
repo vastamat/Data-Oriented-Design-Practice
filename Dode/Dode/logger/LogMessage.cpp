@@ -4,9 +4,9 @@
 
 namespace dode
 {
-				LogMessage::LogMessage(Logger* _owner, LogLevel _level, std::string _file, uint32_t _line)
-								: m_Owner(_owner)
-								, m_Meta(_level, std::move(_file), _line)
+				LogMessage::LogMessage(Logger* _Owner, LogLevel _Level, std::string _File, uint32_t _Line)
+								: m_Owner(_Owner)
+								, m_Meta(_Level, std::move(_File), _Line)
 				{
 				}
 
@@ -37,9 +37,9 @@ namespace dode
 								return *this;
 				}
 
-				LogMessage & LogMessage::operator<<(std::ostream &(*_iostreamFunc)(std::ostream &))
+				LogMessage & LogMessage::operator<<(std::ostream &(*_IostreamFunc)(std::ostream &))
 				{
-								_iostreamFunc(m_Buffer);
+								_IostreamFunc(m_Buffer);
 								return *this;
 				}
 				std::string LogMessage::GetMessage() const

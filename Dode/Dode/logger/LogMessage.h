@@ -12,7 +12,7 @@ namespace dode
 				class LogMessage
 				{
 				public:
-								LogMessage(Logger* _owner, LogLevel _level, std::string _file, uint32_t _line);
+								LogMessage(Logger* _Owner, LogLevel _Level, std::string _File, uint32_t _Line);
 								~LogMessage();
 
 								LogMessage(const LogMessage& _Copy) = delete;
@@ -22,13 +22,13 @@ namespace dode
 								LogMessage& operator=(LogMessage&& _Moved);
 
 								template <typename T>
-								LogMessage& operator<< (const T& _value)
+								LogMessage& operator<< (const T& _Value)
 								{
-												m_Buffer << _value;
+												m_Buffer << _Value;
 												return *this;
 								}
 
-								LogMessage& operator<< (std::ostream& (*_iostreamFunc)(std::ostream&)); // accept iostream manipulator functions (endl etc)
+								LogMessage& operator<< (std::ostream& (*_IostreamFunc)(std::ostream&)); // accept iostream manipulator functions (endl etc)
 
 								std::string GetMessage() const;
 

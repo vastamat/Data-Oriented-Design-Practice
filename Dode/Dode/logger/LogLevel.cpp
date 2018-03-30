@@ -2,15 +2,15 @@
 
 namespace dode
 {
-				std::ostream & operator<<(std::ostream & _os, const LogLevel & _level)
+				std::ostream & operator<<(std::ostream & _Ostream, const LogLevel & _Level)
 				{
-								switch (_level)
+								switch (_Level)
 								{
-								case LogLevel::Debug: _os << "Debug: "; break;
-								case LogLevel::Warning: _os << "Warning: "; break;
-								case LogLevel::Error: _os << "Error: "; break;
-								default:	_os << "Unknown Log Level: "; break;
+								case LogLevel::Debug: _Ostream << "Debug: "; break;
+								case LogLevel::Warning: _Ostream << "Warning: "; break;
+								case LogLevel::Error: _Ostream << "Error: "; break;
+								default:	_Ostream << "Unknown Log Level: "; break;
 								}
-								return _os;
+								return _Ostream;
 				}
 }
