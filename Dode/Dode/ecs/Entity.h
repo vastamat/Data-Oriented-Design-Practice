@@ -25,6 +25,7 @@ namespace dode
 
 				inline Entity CrateEntity(uint32_t _Id, uint8_t _Generation)
 				{
-								return { (_Generation << ENTITY_INDEX_BITS) | _Id };
+								uint32_t Generation32 = static_cast<uint32_t>(_Generation);
+								return { (Generation32 << ENTITY_INDEX_BITS) | _Id };
 				}
 }

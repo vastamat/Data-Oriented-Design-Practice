@@ -26,9 +26,21 @@ namespace dode
 												{
 																m_Generation.push_back(0u);
 																index = m_Generation.size() - 1;
-																assert(index < (1 << ENTITY_INDEX_BITS));
+																assert(index < (1u << ENTITY_INDEX_BITS));
 												}
 												return CrateEntity(index, m_Generation[index]);
+								}
+
+								bool IsAlive(Entity _Entity)
+								{
+												return m_Generation[_Entity.GetId()] == _Entity.GetGeneration();
+								}
+
+								void DestroyEntity(Entity _Entity)
+								{
+												const uint32_t Index = _Entity.GetId();
+												++m_Generation[Index];
+												m_FreeIndices.push_back(Index);
 								}
 
 				private:
