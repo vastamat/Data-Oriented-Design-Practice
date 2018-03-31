@@ -41,7 +41,7 @@ namespace dode
 												auto it = std::find(m_OriginalPointers.begin(), m_OriginalPointers.end(), _Listener);
 												if (it == m_OriginalPointers.end())
 												{
-																throw std::runtime_error("Tried to remove a listener that has not been registered");
+																throw std::runtime_error("Tried to remove a listener that is not in the vector");
 												}
 
 												auto index = it - m_OriginalPointers.begin();

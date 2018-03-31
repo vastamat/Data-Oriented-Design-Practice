@@ -9,12 +9,12 @@ struct TestEvent
 
 struct TestEventListener
 {
-				TestEventListener()
+				void BeginListening()
 				{
 								dode::EventDispatcher::AddListener<TestEvent>(this);
 				}
 
-				~TestEventListener()
+				void StopListening()
 				{
 								dode::EventDispatcher::RemoveListener<TestEvent>(this);
 				}
@@ -31,18 +31,42 @@ struct TestEventListener
 
 SCENARIO("Register a listener and dispatch an event", "[EventSystem]")
 {
-				GIVEN("An event listener that is registered to the dispatcher to listen for a given event")
+				GIVEN("A Test event listener")
 				{
 								TestEventListener TEL;
-								WHEN("An event of that type is broadcasted")
+								WHEN("It begins listening and an event of that type is broadcasted")
 								{
+												TEL.BeginListening();
 												std::string EventMessage = "Event Was Called";
 												dode::EventDispatcher::BroadcastEvent<TestEvent>(TestEvent{ EventMessage });
+												TEL.StopListening();
 
 												THEN("The event listener's callback function is called with that event param")
 												{
 																REQUIRE(TEL.TestMessage == EventMessage);
 																REQUIRE(TEL.timesCalled == 1u);
+												}
+								}
+
+								WHEN("It begins listening and later stops before an event is broadcasted")
+								{
+												TEL.BeginListening();
+												std::string EventMessage = "Event Was Called";
+												TEL.StopListening();
+												dode::EventDispatcher::BroadcastEvent<TestEvent>(TestEvent{ EventMessage });
+
+												THEN("The event is not received")
+												{
+																REQUIRE(TEL.TestMessage == "");
+																REQUIRE(TEL.timesCalled == 0u);
+												}
+								}
+
+								WHEN("The event listener tries to unregister itself before being registered")
+								{
+												THEN("An exception is thrown")
+												{
+																REQUIRE_THROWS(TEL.StopListening());
 												}
 								}
 				}
