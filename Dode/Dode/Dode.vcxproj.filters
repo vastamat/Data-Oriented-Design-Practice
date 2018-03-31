@@ -59,5 +59,11 @@
     <ClInclude Include="Time\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EventSystem\EventQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EventSystem\EventDispatcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

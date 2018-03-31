@@ -1,6 +1,6 @@
 #include <catch.hpp>
 
-#include <logger\Logger.h>
+#include <Logger\Logger.h>
 
 SCENARIO("Logging to a log sink", "[Logger]")
 {

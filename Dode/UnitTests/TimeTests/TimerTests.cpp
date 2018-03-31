@@ -16,7 +16,7 @@ SCENARIO("Testing timers", "[Time]")
 												{
 																float elapsedSeconds = timer.ElapsedMilli();
 																REQUIRE(elapsedSeconds >= 10.0f);
-																REQUIRE(elapsedSeconds <= 10.5f);
+																REQUIRE(elapsedSeconds <= 11.5f);
 												}
 								}
 				}
