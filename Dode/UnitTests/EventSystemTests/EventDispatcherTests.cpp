@@ -26,7 +26,7 @@ struct TestEventListener
 				}
 
 				std::string TestMessage;
-				uint8_t timesCalled = 0u;
+				dode::uint8 timesCalled = 0u;
 };
 
 SCENARIO("Register a listener and dispatch an event", "[EventSystem]")
@@ -59,14 +59,6 @@ SCENARIO("Register a listener and dispatch an event", "[EventSystem]")
 												{
 																REQUIRE(TEL.TestMessage == "");
 																REQUIRE(TEL.timesCalled == 0u);
-												}
-								}
-
-								WHEN("The event listener tries to unregister itself before being registered")
-								{
-												THEN("An exception is thrown")
-												{
-																REQUIRE_THROWS(TEL.StopListening());
 												}
 								}
 				}

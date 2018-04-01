@@ -1,11 +1,12 @@
 #pragma once
 
+#include "../Core/CommonIncludes.h"
+
 #include <ostream>
-#include <cstdint>
 
 namespace dode
 {
-				enum class LogLevel : uint8_t
+				enum class LogLevel : uint8
 				{
 								Debug,
 								Warning,

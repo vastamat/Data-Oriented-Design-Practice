@@ -12,7 +12,7 @@ namespace dode
 				class LogMessage
 				{
 				public:
-								LogMessage(Logger* _Owner, LogLevel _Level, std::string _File, uint32_t _Line);
+								LogMessage(Logger* _Owner, LogLevel _Level, std::string _File, uint32 _Line);
 								~LogMessage();
 
 								LogMessage(const LogMessage& _Copy) = delete;

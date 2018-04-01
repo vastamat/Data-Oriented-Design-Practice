@@ -18,7 +18,7 @@ SCENARIO("Logging to a log sink", "[Logger]")
 								WHEN("A message is logged")
 								{
 												std::string loggedMessage = "Test Test 123\n";
-												LogDebug(Logger) << loggedMessage;
+												DLOG_DEBUG(Logger) << loggedMessage;
 
 												THEN("The logged message is added to the string stream")
 												{
@@ -34,9 +34,9 @@ SCENARIO("Logging to a log sink", "[Logger]")
 
 												std::string AllMessages = loggedMessage1 + loggedMessage2 + loggedMessage3;
 
-												LogDebug(Logger) << loggedMessage1;
-												LogDebug(Logger) << loggedMessage2;
-												LogDebug(Logger) << loggedMessage3;
+												DLOG_DEBUG(Logger) << loggedMessage1;
+												DLOG_DEBUG(Logger) << loggedMessage2;
+												DLOG_DEBUG(Logger) << loggedMessage3;
 
 												THEN("The logged messages are added to the string stream")
 												{

@@ -1,6 +1,7 @@
 #pragma once
 
-#include <assert.h>
+#include "../Core/CommonIncludes.h"
+
 #include <vector>
 #include <mutex>
 
@@ -30,7 +31,7 @@ namespace dode
 												m_Handlers.push_back([_Listener](const EventType& _Event) { _Listener->OnEvent(_Event); });
 												m_OriginalPointers.push_back(_Listener);
 
-												assert(m_Handlers.size() == m_OriginalPointers.size());
+												DENSURE(m_Handlers.size() == m_OriginalPointers.size());
 								}
 
 								template <typename Listener>
@@ -39,15 +40,18 @@ namespace dode
 												ScopedLock lock(m_Mutex);
 
 												auto it = std::find(m_OriginalPointers.begin(), m_OriginalPointers.end(), _Listener);
-												if (it == m_OriginalPointers.end())
+
+												const bool foundIterator = it != m_OriginalPointers.end();
+
+												DENSURE(foundIterator);
+
+												if (foundIterator)
 												{
-																throw std::runtime_error("Tried to remove a listener that is not in the vector");
+																auto index = it - m_OriginalPointers.begin();
+
+																m_Handlers.erase(m_Handlers.begin() + index);
+																m_OriginalPointers.erase(it);
 												}
-
-												auto index = it - m_OriginalPointers.begin();
-
-												m_Handlers.erase(m_Handlers.begin() + index);
-												m_OriginalPointers.erase(it);
 								}
 
 								void Broadcast(const EventType& _Event)

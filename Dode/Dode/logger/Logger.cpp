@@ -12,7 +12,7 @@ namespace dode
 								m_LogSinks.clear();
 				}
 
-				LogMessage Logger::CreateMessage(LogLevel _Level, std::string _File, uint32_t _Line)
+				LogMessage Logger::CreateMessage(LogLevel _Level, std::string _File, uint32 _Line)
 				{
 								return LogMessage(this, _Level, std::move(_File), _Line);
 				}

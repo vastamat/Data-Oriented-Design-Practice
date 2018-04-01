@@ -166,6 +166,7 @@
     <ClCompile Include="Time\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\CommonIncludes.h" />
     <ClInclude Include="ecs\Entity.h" />
     <ClInclude Include="ecs\EntityManager.h" />
     <ClInclude Include="EventSystem\EventDispatcher.h" />

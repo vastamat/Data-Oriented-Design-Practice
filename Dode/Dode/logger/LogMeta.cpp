@@ -4,7 +4,7 @@
 
 namespace dode
 {
-				LogMeta::LogMeta(LogLevel _Level, std::string _File, uint32_t _Line)
+				LogMeta::LogMeta(LogLevel _Level, std::string _File, uint32 _Line)
 								: level(_Level)
 								, file(std::move(_File))
 								, line(_Line)

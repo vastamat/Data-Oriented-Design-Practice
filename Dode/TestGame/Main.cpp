@@ -7,7 +7,7 @@ int main()
 				dode::Logger Logger;
 				Logger.AddSink(dode::CreateConsoleSink());
 
-				LogDebug(Logger) << "Test";
+				DLOG_DEBUG(Logger) << "Test";
 				std::cin.get();
 				return 0;
 }

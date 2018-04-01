@@ -13,7 +13,7 @@ namespace dode
 								void AddSink(LogSink _Sink);
 								void RemoveAllSinks();
 
-								LogMessage CreateMessage(LogLevel _Level, std::string _File, uint32_t _Line);
+								LogMessage CreateMessage(LogLevel _Level, std::string _File, uint32 _Line);
 
 								void Flush(const LogMessage* _Message);
 
@@ -23,6 +23,6 @@ namespace dode
 
 }
 
-#define LogDebug(Logger) Logger.CreateMessage(dode::LogLevel::Debug, __FILE__, __LINE__)
-#define LogWarning(Logger) Logger.CreateMessage(dode::LogLevel::Warning, __FILE__, __LINE__)
-#define LogError(Logger)   Logger.CreateMessage(dode::LogLevel::Error, __FILE__, __LINE__)
+#define DLOG_DEBUG(Logger) Logger.CreateMessage(dode::LogLevel::Debug, __FILE__, __LINE__)
+#define DLOG_WARNING(Logger) Logger.CreateMessage(dode::LogLevel::Warning, __FILE__, __LINE__)
+#define DLOG_ERROR(Logger)   Logger.CreateMessage(dode::LogLevel::Error, __FILE__, __LINE__)
