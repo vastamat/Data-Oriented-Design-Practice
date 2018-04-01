@@ -28,11 +28,15 @@ namespace dode
 												return *this;
 								}
 
-								LogMessage& operator<< (std::ostream& (*_IostreamFunc)(std::ostream&)); // accept iostream manipulator functions (endl etc)
+								inline LogMessage& operator<< (std::ostream& (*_IostreamFunc)(std::ostream&)) // accept iostream manipulator functions (endl etc)
+								{
+												_IostreamFunc(m_Buffer);
+												return *this;
+								}
 
-								std::string GetMessage() const;
+								inline std::string GetMessage() const { return m_Buffer.str(); }
 
-								LogMeta GetMeta() const noexcept;
+								inline LogMeta GetMeta() const noexcept { return m_Meta; }
 
 				private:
 								std::ostringstream m_Buffer;

@@ -11,9 +11,11 @@ namespace dode
 				class LogSink
 				{
 				public:
-								LogSink(WriteFunc _Func);
+								LogSink(WriteFunc _Func)
+												: m_WriteFunc(std::move(_Func))
+								{ }
 
-								void Write(LogMeta _Meta, const std::string& _Message) const;
+								inline void Write(LogMeta _Meta, const std::string& _Message) const { m_WriteFunc(_Meta, _Message); }
 
 				private:
 								WriteFunc m_WriteFunc;

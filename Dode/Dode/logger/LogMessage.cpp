@@ -36,18 +36,4 @@ namespace dode
 
 								return *this;
 				}
-
-				LogMessage & LogMessage::operator<<(std::ostream &(*_IostreamFunc)(std::ostream &))
-				{
-								_IostreamFunc(m_Buffer);
-								return *this;
-				}
-				std::string LogMessage::GetMessage() const
-				{
-								return m_Buffer.str();
-				}
-				LogMeta LogMessage::GetMeta() const noexcept
-				{
-								return m_Meta;
-				}
 }

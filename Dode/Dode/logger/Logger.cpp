@@ -12,11 +12,6 @@ namespace dode
 								m_LogSinks.clear();
 				}
 
-				LogMessage Logger::CreateMessage(LogLevel _Level, std::string _File, uint32 _Line)
-				{
-								return LogMessage(this, _Level, std::move(_File), _Line);
-				}
-
 				void Logger::Flush(const LogMessage * _Message)
 				{
 								LogMeta Meta = _Message->GetMeta();

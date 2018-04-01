@@ -6,16 +6,6 @@
 
 namespace dode
 {
-				LogSink::LogSink(WriteFunc _Func)
-								: m_WriteFunc(std::move(_Func))
-				{
-				}
-
-				void LogSink::Write(LogMeta _Meta, const std::string& _Message) const
-				{
-								m_WriteFunc(_Meta, _Message);
-				}
-
 				LogSink CreateConsoleSink()
 				{
 								auto Func = [](LogMeta _Meta, const std::string& _Message)

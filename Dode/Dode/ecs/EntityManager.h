@@ -30,12 +30,12 @@ namespace dode
 												return CrateEntity(index, m_Generation[index]);
 								}
 
-								bool IsAlive(Entity _Entity)
+								inline bool IsAlive(Entity _Entity)
 								{
 												return m_Generation[_Entity.GetId()] == _Entity.GetGeneration();
 								}
 
-								void DestroyEntity(Entity _Entity)
+								inline void DestroyEntity(Entity _Entity)
 								{
 												const uint32 Index = _Entity.GetId();
 												++m_Generation[Index];

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <chrono>
+#include <thread>
 
 namespace dode
 {
@@ -11,12 +12,30 @@ namespace dode
 				class Timer
 				{
 				public:
-								void Start();
-								void SleepFor(float _Milli);
+								inline void Start()
+								{
+												m_Start = TimePoint::clock::now();
+								}
 
-								FloatDurationSeconds GetDuration() const;
-								float ElapsedSeconds() const;
-								float ElapsedMilli() const;
+								inline void SleepFor(float _Milli)
+								{
+												std::this_thread::sleep_for(FloatDurationMilli(_Milli));
+								}
+
+								inline FloatDurationSeconds GetDuration() const
+								{
+												return TimePoint::clock::now() - m_Start;
+								}
+
+								inline float ElapsedSeconds() const
+								{
+												return GetDuration().count();
+								}
+
+								inline float ElapsedMilli() const
+								{
+												return std::chrono::duration_cast<FloatDurationMilli>(GetDuration()).count();
+								}
 
 				private:
 								TimePoint m_Start;

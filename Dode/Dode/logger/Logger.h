@@ -13,7 +13,10 @@ namespace dode
 								void AddSink(LogSink _Sink);
 								void RemoveAllSinks();
 
-								LogMessage CreateMessage(LogLevel _Level, std::string _File, uint32 _Line);
+								inline LogMessage CreateMessage(LogLevel _Level, std::string _File, uint32 _Line)
+								{
+												return LogMessage(this, _Level, std::move(_File), _Line);
+								}
 
 								void Flush(const LogMessage* _Message);
 

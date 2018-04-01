@@ -163,7 +163,6 @@
     <ClCompile Include="logger\LogMessage.cpp" />
     <ClCompile Include="logger\LogMeta.cpp" />
     <ClCompile Include="logger\LogSink.cpp" />
-    <ClCompile Include="Time\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\CommonIncludes.h" />
