@@ -16,30 +16,30 @@ namespace dode
 								{
 												uint32 index = 0u;
 
-												if (m_FreeIndices.size() > MINIMUM_FREE_INDICES)
+												if ( m_FreeIndices.size() > MINIMUM_FREE_INDICES )
 												{
 																index = m_FreeIndices.front();
 																m_FreeIndices.pop_front();
 												}
 												else
 												{
-																m_Generation.push_back(0u);
+																m_Generation.push_back( 0u );
 																index = m_Generation.size() - 1;
-																DENSURE(index < (1u << ENTITY_INDEX_BITS));
+																DENSURE( index < ( 1u << ENTITY_INDEX_BITS ) );
 												}
-												return CrateEntity(index, m_Generation[index]);
+												return CrateEntity( index, m_Generation[index] );
 								}
 
-								inline bool IsAlive(Entity _Entity)
+								inline bool IsAlive( Entity _Entity )
 								{
 												return m_Generation[_Entity.GetId()] == _Entity.GetGeneration();
 								}
 
-								inline void DestroyEntity(Entity _Entity)
+								inline void DestroyEntity( Entity _Entity )
 								{
 												const uint32 Index = _Entity.GetId();
 												++m_Generation[Index];
-												m_FreeIndices.push_back(Index);
+												m_FreeIndices.push_back( Index );
 								}
 
 				private:

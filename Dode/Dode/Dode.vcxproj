@@ -163,8 +163,11 @@
     <ClCompile Include="logger\LogMessage.cpp" />
     <ClCompile Include="logger\LogMeta.cpp" />
     <ClCompile Include="logger\LogSink.cpp" />
+    <ClCompile Include="Memory\Memory.cpp" />
+    <ClCompile Include="TaskManager\TaskManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Containers\ConcurrentQueue.h" />
     <ClInclude Include="Core\CommonIncludes.h" />
     <ClInclude Include="ecs\Entity.h" />
     <ClInclude Include="ecs\EntityManager.h" />
@@ -175,6 +178,10 @@
     <ClInclude Include="logger\LogMessage.h" />
     <ClInclude Include="logger\LogMeta.h" />
     <ClInclude Include="logger\LogSink.h" />
+    <ClInclude Include="Math\Math.h" />
+    <ClInclude Include="Memory\Memory.h" />
+    <ClInclude Include="TaskManager\Task.h" />
+    <ClInclude Include="TaskManager\TaskManager.h" />
     <ClInclude Include="Time\Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

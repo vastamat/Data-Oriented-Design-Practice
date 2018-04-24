@@ -10,7 +10,7 @@ namespace dode
 				{
 								auto Func = [](LogMeta _Meta, const std::string& _Message)
 								{
-												std::cout << _Meta.level << _Message << std::endl;
+												std::cout << _Meta.m_Level << _Message << std::endl;
 								};
 
 								return LogSink(std::move(Func));
@@ -22,7 +22,7 @@ namespace dode
 								{
 												std::ofstream file(_Filepath, std::ofstream::out);
 											
-												file << _Meta.level << _Message << " (" << _Meta.file << ":" << _Meta.line << ")" << std::endl;
+												file << _Meta.m_Level << _Message << " (" << _Meta.m_File << ":" << _Meta.m_Line << ")" << std::endl;
 
 												file.close();
 								};

@@ -17,9 +17,9 @@ namespace dode
 												m_Start = TimePoint::clock::now();
 								}
 
-								inline void SleepFor(float _Milli)
+								inline void SleepFor( float _Milli )
 								{
-												std::this_thread::sleep_for(FloatDurationMilli(_Milli));
+												std::this_thread::sleep_for( FloatDurationMilli( _Milli ) );
 								}
 
 								inline FloatDurationSeconds GetDuration() const
@@ -34,7 +34,7 @@ namespace dode
 
 								inline float ElapsedMilli() const
 								{
-												return std::chrono::duration_cast<FloatDurationMilli>(GetDuration()).count();
+												return std::chrono::duration_cast< FloatDurationMilli >( GetDuration() ).count();
 								}
 
 				private:
