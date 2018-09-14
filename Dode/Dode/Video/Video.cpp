@@ -1,8 +1,11 @@
 #include "Video.h"
 
-#include "../Logger/Logger.h"
+#include "Logger/Logger.h"
+#include "Core/FileIO.h"
 
 #include <GLFW\glfw3.h>
+
+#include <iostream>
 
 namespace dode
 {
@@ -35,6 +38,14 @@ namespace dode
 
 				void Video::Initialize( uint32 _Width, uint32 _Height, bool _Fullscreen, bool _Borderless )
 				{
+								nlohmann::json settings;
+								settings["Width"] = ( _Width );
+								settings["Height"] = ( _Height );
+								settings["Fullscreen"] = ( _Fullscreen );
+								settings["Borderless"] = ( _Borderless );
+
+								FileIO::WriteJsonObjectToFile( settings, "Engine/Config/Video.json" );
+
 								glfwSetErrorCallback( &GLFWErrorCallback );
 								
 								if ( !glfwInit() )
@@ -47,39 +58,40 @@ namespace dode
 
 								DLOG_DEBUG( Logger ) << "GLFW v" << glfwGetVersionString();
 
-								m_Hints.m_WindowHints.m_Resizable = true;
-								m_Hints.m_WindowHints.m_Visible = true;
-								m_Hints.m_WindowHints.m_Decorated = true;
-								m_Hints.m_WindowHints.m_Focused = true;
-								m_Hints.m_WindowHints.m_AutoIconify = true;
-								m_Hints.m_WindowHints.m_Floating = false;
+								VideoHints videoHints;
+								videoHints.m_WindowHints.m_Resizable = true;
+								videoHints.m_WindowHints.m_Visible = true;
+								videoHints.m_WindowHints.m_Decorated = true;
+								videoHints.m_WindowHints.m_Focused = true;
+								videoHints.m_WindowHints.m_AutoIconify = true;
+								videoHints.m_WindowHints.m_Floating = false;
 
 								GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 
-								m_Hints.FromVideoMode( glfwGetVideoMode( monitor ) );
+								videoHints.FromVideoMode( glfwGetVideoMode( monitor ) );
 
-								m_Hints.m_FramebufferHints.m_Stereo = false;
-								m_Hints.m_FramebufferHints.m_Samples = 0;
-								m_Hints.m_FramebufferHints.m_SRGBCapable = true;
-								m_Hints.m_FramebufferHints.m_DoubleBuffer = true;
+								videoHints.m_FramebufferHints.m_Stereo = false;
+								videoHints.m_FramebufferHints.m_Samples = 0;
+								videoHints.m_FramebufferHints.m_SRGBCapable = true;
+								videoHints.m_FramebufferHints.m_DoubleBuffer = true;
 
-								m_Hints.m_ContextHints.m_ClientAPI = ContextHints::ClientAPI::OpenGL;
-								m_Hints.m_ContextHints.m_ContextVersionMajor = 4;
-								m_Hints.m_ContextHints.m_ContextVersionMinor = 0;
+								videoHints.m_ContextHints.m_ClientAPI = ContextHints::ClientAPI::OpenGL;
+								videoHints.m_ContextHints.m_ContextVersionMajor = 4;
+								videoHints.m_ContextHints.m_ContextVersionMinor = 0;
 
-								m_Hints.m_ContextHints.m_OpenGLForwardCompatible = true;
-								m_Hints.m_ContextHints.m_OpenGLProfile = ContextHints::OpenGLProfile::Core;
+								videoHints.m_ContextHints.m_OpenGLForwardCompatible = true;
+								videoHints.m_ContextHints.m_OpenGLProfile = ContextHints::OpenGLProfile::Core;
 #ifdef _DEBUG
-								m_Hints.m_ContextHints.m_OpenGLDebugContext = true;
+								videoHints.m_ContextHints.m_OpenGLDebugContext = true;
 #else
-								m_Hints.m_OpenGLDebugContext = false;
+								videoHints.m_OpenGLDebugContext = false;
 #endif
-								m_Hints.m_ContextHints.m_ContextRobustness = ContextHints::ContextRobustness::NoRobustness;
-								m_Hints.m_ContextHints.m_ContextReleaseBehavior = ContextHints::ContextReleaseBehavior::Any;
+								videoHints.m_ContextHints.m_ContextRobustness = ContextHints::ContextRobustness::NoRobustness;
+								videoHints.m_ContextHints.m_ContextReleaseBehavior = ContextHints::ContextReleaseBehavior::Any;
 
-								DLOG_DEBUG( Logger ) << m_Hints;
+								DLOG_DEBUG( Logger ) << videoHints;
 
-								m_Hints.Apply();
+								videoHints.Apply();
 
 								if ( _Fullscreen )
 								{
@@ -99,7 +111,7 @@ namespace dode
 				}
 				void Video::Shutdown()
 				{
-								m_MainWindow.reset();
+								m_MainWindow.Close();
 								glfwTerminate();
 				}
 				void Video::PollEvents()
@@ -108,18 +120,21 @@ namespace dode
 				}
 				void Video::SwapBuffers()
 				{
-								m_MainWindow->SwapBuffers();
+								m_MainWindow.SwapBuffers();
 				}
 				void Video::CreateFullscreenWindow( const std::string & _Title, GLFWmonitor * _Monitor, int32 _Width, int32 _Height )
 				{
-								m_MainWindow.reset( new Window( _Title, _Monitor, _Width, _Height ) );
+								m_MainWindow.Close();
+								m_MainWindow.CreateFullscreenWindow( _Title, _Monitor, _Width, _Height );
 				}
 				void Video::CreateBorderlessFullscreenWindow( const std::string & _Title, GLFWmonitor * _Monitor )
 				{
-								m_MainWindow.reset( new Window( _Title, _Monitor ) );
+								m_MainWindow.Close();
+								m_MainWindow.CreateBorderlessFullscreenWindow( _Title, _Monitor );
 				}
 				void Video::CreateWindowedWindow( const std::string & _Title, int32 _Width, int32 _Height )
 				{
-								m_MainWindow.reset( new Window( _Title, _Width, _Height ) );
+								m_MainWindow.Close();
+								m_MainWindow.CreateWindowedWindow( _Title, _Width, _Height );
 				}
 }

@@ -1,7 +1,7 @@
 #include "Window.h"
 
-#include "../Core/Engine.h"
-#include "../EventSystem/EventDispatcher.h"
+#include "Core/Engine.h"
+#include "EventSystem/EventDispatcher.h"
 
 #include <GLFW/glfw3.h>
 
@@ -16,7 +16,6 @@ namespace dode
 
 				void WindowCloseCallback( GLFWwindow* _Handle )
 				{
-								EventDispatcher::BroadcastEvent( Engine::OnExit() );
 				}
 
 				void WindowFocusCallback( GLFWwindow* _Handle, int32 _State )
@@ -86,76 +85,14 @@ namespace dode
 								Channel::broadcast( Window::OnResized{ w, oldSize.first, oldSize.second, _Width, _Height } );*/
 				}
 
-				// windowed mode (on primary monitor)
-				Window::Window( const std::string & _Title, int32 _Width, int32 _Height )
-								: m_Title( _Title )
-								, m_Position()
-								, m_Size{ _Width, _Height }
-								, m_Handle( nullptr )
-				{
-								m_Handle = glfwCreateWindow( m_Size.m_Width, m_Size.m_Height, m_Title.c_str(), nullptr, nullptr );
-								glfwSetWindowUserPointer( m_Handle, this );
-
-								glfwGetWindowPos( m_Handle, &m_Position.m_X, &m_Position.m_Y );
-								glfwSetFramebufferSizeCallback( m_Handle, &FramebufferSizeCallback );
-								glfwSetWindowCloseCallback( m_Handle, &WindowCloseCallback );
-								glfwSetWindowFocusCallback( m_Handle, &WindowFocusCallback );
-								glfwSetWindowIconifyCallback( m_Handle, &WindowIconifyCallback );
-								glfwSetWindowPosCallback( m_Handle, &WindowPositionCallback );
-								glfwSetWindowRefreshCallback( m_Handle, &WindowRefreshCallback );
-								glfwSetWindowSizeCallback( m_Handle, &WindowResizeCallback );
-
-								MakeCurrent();
-				}
-
-				// borderless fullscreen mode
-				Window::Window( const std::string & _Title, GLFWmonitor * _Monitor )
-								: m_Title( _Title )
+				Window::Window()
+								: m_Title( "" )
 								, m_Position()
 								, m_Size()
 								, m_Handle( nullptr )
 				{
-								auto* videMode = glfwGetVideoMode( _Monitor );
-
-								m_Size.m_Width = videMode->width;
-								m_Size.m_Height = videMode->height;
-
-								m_Handle = glfwCreateWindow( m_Size.m_Width, m_Size.m_Height, m_Title.c_str(), _Monitor, nullptr );
-								glfwSetWindowUserPointer( m_Handle, this );
-								glfwGetWindowPos( m_Handle, &m_Position.m_X, &m_Position.m_Y );
-
-								glfwSetFramebufferSizeCallback( m_Handle, &FramebufferSizeCallback );
-								glfwSetWindowCloseCallback( m_Handle, &WindowCloseCallback );
-								glfwSetWindowFocusCallback( m_Handle, &WindowFocusCallback );
-								glfwSetWindowIconifyCallback( m_Handle, &WindowIconifyCallback );
-								glfwSetWindowPosCallback( m_Handle, &WindowPositionCallback );
-								glfwSetWindowRefreshCallback( m_Handle, &WindowRefreshCallback );
-								glfwSetWindowSizeCallback( m_Handle, &WindowResizeCallback );
-
-								MakeCurrent();
 				}
 
-				// fullscreen mode
-				Window::Window( const std::string & _Title, GLFWmonitor * _Monitor, int32 _Width, int32 _Height )
-								: m_Title( _Title )
-								, m_Position()
-								, m_Size{ _Width, _Height }
-								, m_Handle( nullptr )
-				{
-								m_Handle = glfwCreateWindow( m_Size.m_Width, m_Size.m_Height, m_Title.c_str(), _Monitor, nullptr );
-								glfwSetWindowUserPointer( m_Handle, this );
-								glfwGetWindowPos( m_Handle, &m_Position.m_X, &m_Position.m_Y );
-
-								glfwSetFramebufferSizeCallback( m_Handle, &FramebufferSizeCallback );
-								glfwSetWindowCloseCallback( m_Handle, &WindowCloseCallback );
-								glfwSetWindowFocusCallback( m_Handle, &WindowFocusCallback );
-								glfwSetWindowIconifyCallback( m_Handle, &WindowIconifyCallback );
-								glfwSetWindowPosCallback( m_Handle, &WindowPositionCallback );
-								glfwSetWindowRefreshCallback( m_Handle, &WindowRefreshCallback );
-								glfwSetWindowSizeCallback( m_Handle, &WindowResizeCallback );
-
-								MakeCurrent();
-				}
 				Window::Window( Window && _Other )
 								: m_Title( std::move( _Other.m_Title ) )
 								, m_Position( std::move( _Other.m_Position ) )
@@ -171,6 +108,7 @@ namespace dode
 
 								MakeCurrent();
 				}
+
 				Window & Window::operator=( Window && _Rhs )
 				{
 								if ( m_Handle )
@@ -192,7 +130,77 @@ namespace dode
 
 								return *this;
 				}
+
 				Window::~Window()
+				{
+								Close();
+				}
+
+				void Window::CreateFullscreenWindow( const std::string & _Title, GLFWmonitor * _Monitor, int32 _Width, int32 _Height )
+				{
+								m_Title = _Title;
+								m_Size = { _Width, _Height };
+
+								m_Handle = glfwCreateWindow( m_Size.m_Width, m_Size.m_Height, m_Title.c_str(), _Monitor, nullptr );
+								glfwSetWindowUserPointer( m_Handle, this );
+								glfwGetWindowPos( m_Handle, &m_Position.m_X, &m_Position.m_Y );
+
+								glfwSetFramebufferSizeCallback( m_Handle, &FramebufferSizeCallback );
+								glfwSetWindowCloseCallback( m_Handle, &WindowCloseCallback );
+								glfwSetWindowFocusCallback( m_Handle, &WindowFocusCallback );
+								glfwSetWindowIconifyCallback( m_Handle, &WindowIconifyCallback );
+								glfwSetWindowPosCallback( m_Handle, &WindowPositionCallback );
+								glfwSetWindowRefreshCallback( m_Handle, &WindowRefreshCallback );
+								glfwSetWindowSizeCallback( m_Handle, &WindowResizeCallback );
+
+								MakeCurrent();
+				}
+
+				void Window::CreateBorderlessFullscreenWindow( const std::string & _Title, GLFWmonitor * _Monitor )
+				{
+								m_Title = _Title;
+
+								auto* videMode = glfwGetVideoMode( _Monitor );
+
+								m_Size.m_Width = videMode->width;
+								m_Size.m_Height = videMode->height;
+
+								m_Handle = glfwCreateWindow( m_Size.m_Width, m_Size.m_Height, m_Title.c_str(), _Monitor, nullptr );
+								glfwSetWindowUserPointer( m_Handle, this );
+								glfwGetWindowPos( m_Handle, &m_Position.m_X, &m_Position.m_Y );
+
+								glfwSetFramebufferSizeCallback( m_Handle, &FramebufferSizeCallback );
+								glfwSetWindowCloseCallback( m_Handle, &WindowCloseCallback );
+								glfwSetWindowFocusCallback( m_Handle, &WindowFocusCallback );
+								glfwSetWindowIconifyCallback( m_Handle, &WindowIconifyCallback );
+								glfwSetWindowPosCallback( m_Handle, &WindowPositionCallback );
+								glfwSetWindowRefreshCallback( m_Handle, &WindowRefreshCallback );
+								glfwSetWindowSizeCallback( m_Handle, &WindowResizeCallback );
+
+								MakeCurrent();
+				}
+
+				void Window::CreateWindowedWindow( const std::string & _Title, int32 _Width, int32 _Height )
+				{
+								m_Title = _Title;
+								m_Size = { _Width, _Height };
+
+								m_Handle = glfwCreateWindow( m_Size.m_Width, m_Size.m_Height, m_Title.c_str(), nullptr, nullptr );
+								glfwSetWindowUserPointer( m_Handle, this );
+
+								glfwGetWindowPos( m_Handle, &m_Position.m_X, &m_Position.m_Y );
+								glfwSetFramebufferSizeCallback( m_Handle, &FramebufferSizeCallback );
+								glfwSetWindowCloseCallback( m_Handle, &WindowCloseCallback );
+								glfwSetWindowFocusCallback( m_Handle, &WindowFocusCallback );
+								glfwSetWindowIconifyCallback( m_Handle, &WindowIconifyCallback );
+								glfwSetWindowPosCallback( m_Handle, &WindowPositionCallback );
+								glfwSetWindowRefreshCallback( m_Handle, &WindowRefreshCallback );
+								glfwSetWindowSizeCallback( m_Handle, &WindowResizeCallback );
+
+								MakeCurrent();
+				}
+
+				void Window::Close()
 				{
 								if ( m_Handle )
 								{
@@ -200,6 +208,7 @@ namespace dode
 												m_Handle = nullptr;
 								}
 				}
+
 				bool Window::ShouldClose() const
 				{
 								return glfwWindowShouldClose( m_Handle ) != GLFW_FALSE;

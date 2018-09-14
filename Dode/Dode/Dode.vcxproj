@@ -73,7 +73,7 @@
     <OutDir>$(SolutionDir)lib\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\intermediates\$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(SolutionDir)Dependencies\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Dependencies\include;$(SolutionDir)Dode;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies\libs\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -87,7 +87,7 @@
     <OutDir>$(SolutionDir)lib\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\intermediates\$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
     <TargetExt>.lib</TargetExt>
-    <IncludePath>$(SolutionDir)Dependencies\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Dependencies\include;$(SolutionDir)Dode;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies\libs\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -158,7 +158,11 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="App\Application.cpp" />
     <ClCompile Include="Core\Engine.cpp" />
+    <ClCompile Include="Core\FileIO.cpp" />
+    <ClCompile Include="ECS\System.cpp" />
+    <ClCompile Include="ECS\World.cpp" />
     <ClCompile Include="logger\Logger.cpp" />
     <ClCompile Include="logger\LogLevel.cpp" />
     <ClCompile Include="logger\LogMessage.cpp" />
@@ -166,14 +170,23 @@
     <ClCompile Include="logger\LogSink.cpp" />
     <ClCompile Include="Memory\Memory.cpp" />
     <ClCompile Include="TaskManager\TaskManager.cpp" />
+    <ClCompile Include="TaskManager\ThreadPool.cpp" />
     <ClCompile Include="Video\Video.cpp" />
     <ClCompile Include="Video\VideoHints.cpp" />
     <ClCompile Include="Video\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="App\Application.h" />
+    <ClInclude Include="Containers\ContainerUtils.h" />
+    <ClInclude Include="ECS\EntityKeyMask.h" />
+    <ClInclude Include="ECS\System.h" />
+    <ClInclude Include="ECS\World.h" />
     <ClInclude Include="Containers\ConcurrentQueue.h" />
     <ClInclude Include="Core\CommonIncludes.h" />
     <ClInclude Include="Core\Engine.h" />
+    <ClInclude Include="Core\FileIO.h" />
+    <ClInclude Include="ECS\Component.h" />
+    <ClInclude Include="ECS\ComponentManager.h" />
     <ClInclude Include="ecs\Entity.h" />
     <ClInclude Include="ecs\EntityManager.h" />
     <ClInclude Include="EventSystem\EventDispatcher.h" />
@@ -187,6 +200,7 @@
     <ClInclude Include="Memory\Memory.h" />
     <ClInclude Include="TaskManager\Task.h" />
     <ClInclude Include="TaskManager\TaskManager.h" />
+    <ClInclude Include="TaskManager\ThreadPool.h" />
     <ClInclude Include="Time\Timer.h" />
     <ClInclude Include="Video\Video.h" />
     <ClInclude Include="Video\Window.h" />

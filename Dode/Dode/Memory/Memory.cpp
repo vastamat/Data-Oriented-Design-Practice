@@ -1,6 +1,6 @@
 #include "Memory.h"
 
-#include "../Math/Math.h"
+#include "Math/Math.h"
 
 #include <cstdlib>
 

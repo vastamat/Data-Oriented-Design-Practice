@@ -1,6 +1,6 @@
 #include "TaskManager.h"
 
-#include "../EventSystem/EventDispatcher.h"
+#include "EventSystem/EventDispatcher.h"
 
 namespace dode
 {

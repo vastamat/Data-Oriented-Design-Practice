@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Core/CommonIncludes.h"
+#include "Core/CommonIncludes.h"
 
 #include <cmath>
 
@@ -8,17 +8,17 @@ namespace dode
 {
 				namespace Math
 				{
-								constexpr const float c_Pi = 3.1415926535897932f;
-								constexpr const float c_TwoPi = 6.28318530717959f;
-								constexpr const float c_HalfPi = 1.57079632679f;
-								constexpr const float c_ReciprocalPi = 0.31830988618f;
-								constexpr const float c_ReciprocalTwoPi = 0.159154943091895f;
-								constexpr const float c_ReciprocalHalfPi = 0.636619772367581f;
+								constexpr float c_Pi = 3.1415926535897932f;
+								constexpr float c_TwoPi = 6.28318530717959f;
+								constexpr float c_HalfPi = 1.57079632679f;
+								constexpr float c_ReciprocalPi = 0.31830988618f;
+								constexpr float c_ReciprocalTwoPi = 0.159154943091895f;
+								constexpr float c_ReciprocalHalfPi = 0.636619772367581f;
 
-								constexpr const float c_EulersNumber = 2.71828182845904523536f;
-								constexpr const float c_Log2E = 1.44269504088896f;
-								constexpr const float c_RadToDeg = 57.2957795130823f; // 180.0f/PI;
-								constexpr const float c_DegToRad = 0.0174532925199433f; // PI/180.0f;
+								constexpr float c_EulersNumber = 2.71828182845904523536f;
+								constexpr float c_Log2E = 1.44269504088896f;
+								constexpr float c_RadToDeg = 57.2957795130823f; // 180.0f/PI;
+								constexpr float c_DegToRad = 0.0174532925199433f; // PI/180.0f;
 
 								constexpr inline int32 TruncToInt( float _Val )
 								{

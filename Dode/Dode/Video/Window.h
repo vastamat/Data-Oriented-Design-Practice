@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Core/CommonIncludes.h"
+#include "Core/CommonIncludes.h"
 
 #include <string>
 
@@ -30,9 +30,7 @@ namespace dode
 												int32 m_Height{ 0 };
 								};
 				public:
-								Window( const std::string& _Title, int32 _Width, int32 _Height );
-								Window( const std::string& _Title, GLFWmonitor* _Monitor );
-								Window( const std::string& _Title, GLFWmonitor* _Monitor, int32 _Width, int32 _Height );
+								Window();
 
 								Window( const Window& ) = delete;
 								Window& operator = ( const Window& ) = delete;
@@ -41,6 +39,11 @@ namespace dode
 								Window& operator = ( Window&& _Rhs );
 
 								~Window();
+
+								void CreateFullscreenWindow( const std::string & _Title, GLFWmonitor * _Monitor, int32 _Width, int32 _Height );
+								void CreateBorderlessFullscreenWindow( const std::string & _Title, GLFWmonitor * _Monitor );
+								void CreateWindowedWindow( const std::string & _Title, int32 _Width, int32 _Height );
+								void Close();
 
 								bool ShouldClose() const;
 

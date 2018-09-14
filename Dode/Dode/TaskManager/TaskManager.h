@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Task.h"
-#include "../Containers/ConcurrentQueue.h"
+#include "Containers/ConcurrentQueue.h"
 
 #include <algorithm>
 #include <list>

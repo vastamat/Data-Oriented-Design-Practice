@@ -1,38 +1,49 @@
 #include "Engine.h"
 
-#include "../EventSystem/EventDispatcher.h"
+#include <algorithm>
 
 namespace dode
 {
 				Engine::Engine()
 								: m_Video()
+								, m_ThreadPool()
 								, m_IsRunning( true )
 				{
-								EventDispatcher::AddListener<OnExit>( this );
+				}
+
+				void Engine::SetApplication( std::unique_ptr<Application> _Application )
+				{
+								m_Application = std::move( _Application );
 				}
 
 				void Engine::Run()
 				{
-								m_Video.Initialize( 1280, 720, false, false );
+								InitializeEngineSubSystems();
 
 								while ( m_IsRunning )
 								{
-												m_Video.PollEvents();
+												if ( m_Application )
+												{
 
+												}
 												m_Video.SwapBuffers();
 								}
 
-								m_Video.Shutdown();
-
-								EventDispatcher::RemoveListener<OnExit>( this );
+								ShutdownEngineSubSystems();
 				}
 
 				void Engine::Stop()
 				{
 								m_IsRunning = false;
 				}
-				void Engine::OnEvent( const OnExit & _OnExit )
+
+				void Engine::InitializeEngineSubSystems()
 				{
-								m_IsRunning = false;
+								m_Video.Initialize( 1080, 760, false, false );
+				}
+
+				void Engine::ShutdownEngineSubSystems()
+				{
+								m_Video.Shutdown();
 				}
 }
