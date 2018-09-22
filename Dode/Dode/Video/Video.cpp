@@ -36,15 +36,15 @@ namespace dode
 								}
 				}
 
-				void Video::Initialize( uint32 _Width, uint32 _Height, bool _Fullscreen, bool _Borderless )
+				void Video::Initialize()
 				{
 								nlohmann::json settings;
-								settings["Width"] = ( _Width );
-								settings["Height"] = ( _Height );
-								settings["Fullscreen"] = ( _Fullscreen );
-								settings["Borderless"] = ( _Borderless );
+								FileIO::ReadFileToJsonObject( settings, "Engine/Config/Video.json" );
 
-								FileIO::WriteJsonObjectToFile( settings, "Engine/Config/Video.json" );
+								const uint32 width = settings["Width"];
+								const uint32 height = settings["Height"];
+								const bool fullscreen = settings["Fullscreen"];
+								const bool borderless = settings["Borderless"];
 
 								glfwSetErrorCallback( &GLFWErrorCallback );
 								
@@ -93,20 +93,20 @@ namespace dode
 
 								videoHints.Apply();
 
-								if ( _Fullscreen )
+								if ( fullscreen )
 								{
-												if ( _Borderless )
+												if ( borderless )
 												{
 																CreateBorderlessFullscreenWindow( "Borderless Fullscreen", monitor );
 												}
 												else
 												{
-																CreateFullscreenWindow( "Borderless Fullscreen", monitor, _Width, _Height );
+																CreateFullscreenWindow( "Borderless Fullscreen", monitor, width, height );
 												}
 								}
 								else
 								{
-												CreateWindowedWindow( "Borderless Fullscreen", _Width, _Height );
+												CreateWindowedWindow( "Borderless Fullscreen", width, height );
 								}
 				}
 				void Video::Shutdown()

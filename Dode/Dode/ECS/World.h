@@ -12,8 +12,19 @@ namespace dode
 				class World
 				{
 				public:
-								World();
+								World(const std::string& _IdentificationName );
 								~World();
+
+								World( const World& _Other ) = delete;
+								World& operator=( const World& _Other ) = delete;
+
+								World( World&& _Other ) noexcept;
+								World& operator=( World&& _Other ) noexcept;
+
+								void OnEnter();
+								void OnExit();
+
+								void UpdateSystems(float _DeltaTime);
 
 								Entity CreateEntity();
 								void DestroyEntity( Entity _Entity );
@@ -26,16 +37,20 @@ namespace dode
 								// void UnpackComponentData(Entity _E, ComponentHandle<ComponentType>& _ComponentHandle, ComponentHandle<Args>& ..._OtherComponents)
 
 								void AddSystem( std::unique_ptr<System> _System );
-								void RemoveSystem( System* _System );
+
+								inline const std::string& GetIdName() const noexcept { return m_IdentificationName; }
 
 				private:
 								template<typename ComponentType>
 								ComponentManager<ComponentType>* GetPtrToDerivedComponentManager();
 
+								void UpdateEntityInSystems( Entity _Entity, const ComponentMask& oldComponentMask, const ComponentMask& newComponentMask );
+
 				private:
 								EntityManager m_EntityManager;
 								std::array<std::unique_ptr<BaseComponentManager>, c_NumberOfMaxComponentTypes> m_ComponentManagers;
 								std::vector<std::unique_ptr<System>> m_Systems;
+								std::string m_IdentificationName;
 				};
 
 				template<typename ComponentType>
@@ -45,13 +60,13 @@ namespace dode
 
 								derivedComponentManager->AddComponent( _E, _Data );
 
-								//Remove Entity From Systems it's currently registered
-								// auto CurrentKeyMask = MaskManager.GetMaskForEntity(_E);
-								// if CurrentKeyMask != null
-								// Get Systems With Current Key Mask
-								// Remove Entity E from them
-								//Add Entity to Systems which correspond to the new component mask
-								
+								ComponentMask oldComponentMask = m_EntityManager.GetComponentMaskForEntity( _E );
+
+								m_EntityManager.ActivateComponentBitForEntity( _E, GetIdOfComponentType<ComponentType>() );
+
+								const ComponentMask& newComponentMask = m_EntityManager.GetComponentMaskForEntity( _E );
+
+								UpdateEntityInSystems( _E, oldComponentMask, newComponentMask );
 				}
 				template<typename ComponentType>
 				inline void World::RemoveComponent( Entity _E )
@@ -60,9 +75,13 @@ namespace dode
 
 								derivedComponentManager->RemoveComponent( _E );
 
-								//Remove Entity From Systems it's currently registered
+								ComponentMask oldComponentMask = m_EntityManager.GetComponentMaskForEntity( _E );
 
-								//Add Entity to Systems which correspond to the new component mask
+								m_EntityManager.DeactivateComponentBitForEntity( _E, GetIdOfComponentType<ComponentType>() );
+
+								const ComponentMask& newComponentMask = m_EntityManager.GetComponentMaskForEntity( _E );
+
+								UpdateEntityInSystems( _E, oldComponentMask, newComponentMask );
 				}
 
 				template<typename ComponentType>

@@ -85,6 +85,20 @@ namespace dode
 												return true;
 								}
 
+								bool ReadFileToJsonObject( nlohmann::json & _obj, const std::string & _filePath )
+								{
+												std::ifstream file( _filePath );
+												if ( file.fail() )
+												{
+																perror( _filePath.c_str() );
+																return false;
+												}
+
+												file >> _obj;
+
+												return true;
+								}
+
 								void CreateFilepath( const std::string & _filePath )
 								{
 												namespace fs = std::experimental::filesystem;

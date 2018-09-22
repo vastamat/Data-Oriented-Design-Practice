@@ -16,7 +16,7 @@ namespace dode
 				public:
 								Engine();
 
-								void SetApplication( std::unique_ptr<Application> _Application );
+								void SetApplication( Application&& _Application );
 								void Run();
 								void Stop();
 
@@ -25,10 +25,10 @@ namespace dode
 								void ShutdownEngineSubSystems();
 
 				private:
+								Application m_Application;
 								Video m_Video;
 								ThreadPool m_ThreadPool;
 
-								std::unique_ptr<Application> m_Application;
 								bool m_IsRunning;
 				};
 }

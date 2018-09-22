@@ -8,7 +8,7 @@ namespace dode
 				class Video
 				{
 				public:
-								void Initialize( uint32 _Width, uint32 _Height, bool _Fullscreen, bool _Borderless );
+								void Initialize();
 								void Shutdown();
 								
 								void PollEvents();

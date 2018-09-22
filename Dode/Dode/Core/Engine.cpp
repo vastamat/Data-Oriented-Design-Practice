@@ -5,15 +5,17 @@
 namespace dode
 {
 				Engine::Engine()
-								: m_Video()
+								: m_Application()
+								, m_Video()
 								, m_ThreadPool()
 								, m_IsRunning( true )
 				{
 				}
 
-				void Engine::SetApplication( std::unique_ptr<Application> _Application )
+				void Engine::SetApplication( Application&& _Application )
 				{
 								m_Application = std::move( _Application );
+								m_Application.SetReadyToBeginRunning();
 				}
 
 				void Engine::Run()
@@ -22,10 +24,7 @@ namespace dode
 
 								while ( m_IsRunning )
 								{
-												if ( m_Application )
-												{
-
-												}
+												m_Application.Update();
 												m_Video.SwapBuffers();
 								}
 
@@ -39,7 +38,7 @@ namespace dode
 
 				void Engine::InitializeEngineSubSystems()
 				{
-								m_Video.Initialize( 1080, 760, false, false );
+								m_Video.Initialize();
 				}
 
 				void Engine::ShutdownEngineSubSystems()

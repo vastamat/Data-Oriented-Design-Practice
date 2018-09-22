@@ -5,44 +5,71 @@
 #include <TaskManager/ThreadPool.h>
 #include <ECS/Component.h>
 
-#include "TestClass.h"
-
 struct TestComponent : public dode::Component
 {
-				dode::uint64 EightBytes;
-				dode::uint32 FourBytes;
-				dode::uint16 TwoBytes;
-				dode::uint8 OneByte;
+				dode::uint64 EightBytes = 0;
+				dode::uint32 FourBytes = 0;
+				dode::uint16 TwoBytes = 0;
+				dode::uint8 OneByte = 0;
 };
 
-struct TestComponent2 : public dode::Component
+class TestSystem : public dode::System
 {
-				dode::uint64 EightBytes;
-				dode::uint32 FourBytes;
-				dode::uint16 TwoBytes;
-				dode::uint8 OneByte;
+public:
+				TestSystem()
+				{
+								m_SystemSignature.set( dode::GetIdOfComponentType<TestComponent>() );
+								m_TestLogger.AddSink( dode::CreateConsoleSink() );
+				}
+				~TestSystem()
+				{
+				}
+
+				virtual void Initialize() override
+				{
+								DLOG_DEBUG( m_TestLogger ) << "Initializing Test System";
+				}
+				virtual void Uninitialize() override
+				{
+								DLOG_DEBUG( m_TestLogger ) << "Uninitializing Test System";
+				}
+				virtual void Update( const dode::World& _World, float _Dt ) override
+				{
+								DLOG_DEBUG( m_TestLogger ) << "Updating Test System - Number of Registered Entities: " << m_RegisteredEntities.size();
+				}
+
+private:
+				dode::Logger m_TestLogger;
 };
 
+dode::Application MakeTestApp()
+{
+				dode::Application testApp;
+				dode::World& testWorld = testApp.CreateNewWorld( "World_1" );
+
+				testWorld.AddSystem( std::make_unique<TestSystem>() );
+
+				dode::Entity entity = testWorld.CreateEntity();
+
+				testWorld.AddComponent<TestComponent>( entity, TestComponent{} );
+
+				return testApp;
+}
 int main()
 {
 				dode::Logger Logger;
 				Logger.AddSink( dode::CreateConsoleSink() );
-				//dode::uint32 TestComponentId1 = dode::GetIdOfComponentType<TestComponent>();
-				//dode::uint32 TestComponentId2 = dode::GetIdOfComponentType<TestComponent2>();
-				//dode::uint32 TestComponentId11 = dode::GetIdOfComponentType<TestComponent>();
-				//dode::uint32 TestComponentId21 = dode::GetIdOfComponentType<TestComponent2>();
 
-				//DLOG_DEBUG( Logger ) << TestComponentId1 << std::endl;
-				//DLOG_DEBUG( Logger ) << TestComponentId2 << std::endl;
-				//DLOG_DEBUG( Logger ) << TestComponentId11 << std::endl;
-				//DLOG_DEBUG( Logger ) << TestComponentId21 << std::endl;
-				//LogComponents();
 				dode::Engine Engine;
-
+				Engine.SetApplication( MakeTestApp() );
 				Engine.Run();
+				
+				/*std::vector<dode::World> worlds;
+				dode::World testWorld("test");
+				worlds.emplace_back( "Test2" );
+				auto& world2 = worlds.back();*/
 
 				//dode::ThreadPool pool;
-
 				//for ( size_t i = 0; i <= std::thread::hardware_concurrency(); ++i )
 				//{
 				//				auto result = pool.Enqueue( []
@@ -53,10 +80,8 @@ int main()
 				//												std::cout << "Thread Id: " << std::this_thread::get_id() << " counter = " << counter << std::endl;
 				//												counter++;
 				//								}
-
 				//								return counter;
 				//				} );
-
 				//				/*std::cout << "Before checking result validity" << std::endl;
 				//				if ( auto countedResult = result.get() )
 				//				{
@@ -64,8 +89,6 @@ int main()
 				//								assert( countedResult == 10 );
 				//				}*/
 				//}
-
-
 
 				std::cin.get();
 				return 0;

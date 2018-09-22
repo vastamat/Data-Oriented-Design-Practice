@@ -4,10 +4,8 @@
 
 namespace dode
 {
-				System::System( const std::string& _SystemName )
-								: m_SystemName( _SystemName )
+				System::System()
 				{
-								DENSURE( !m_SystemSignature.none() );
 				}
 				System::~System()
 				{

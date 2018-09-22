@@ -161,6 +161,7 @@
     <ClCompile Include="App\Application.cpp" />
     <ClCompile Include="Core\Engine.cpp" />
     <ClCompile Include="Core\FileIO.cpp" />
+    <ClCompile Include="ECS\EntityManager.cpp" />
     <ClCompile Include="ECS\System.cpp" />
     <ClCompile Include="ECS\World.cpp" />
     <ClCompile Include="logger\Logger.cpp" />
@@ -178,7 +179,6 @@
   <ItemGroup>
     <ClInclude Include="App\Application.h" />
     <ClInclude Include="Containers\ContainerUtils.h" />
-    <ClInclude Include="ECS\EntityKeyMask.h" />
     <ClInclude Include="ECS\System.h" />
     <ClInclude Include="ECS\World.h" />
     <ClInclude Include="Containers\ConcurrentQueue.h" />

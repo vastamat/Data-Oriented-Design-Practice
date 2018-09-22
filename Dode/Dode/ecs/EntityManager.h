@@ -1,49 +1,44 @@
 #pragma once
 
+#include "ComponentManager.h"
 #include "Entity.h"
 
-#include <deque>
-#include <vector>
+#include <bitset>
+#include <queue>
 
 namespace dode
 {
-				constexpr uint32 MINIMUM_FREE_INDICES = 1024u;
-
 				class EntityManager
 				{
 				public:
-								Entity Create()
-								{
-												uint32 index = 0u;
+								Entity Create();
 
-												if ( m_FreeIndices.size() > MINIMUM_FREE_INDICES )
-												{
-																index = m_FreeIndices.front();
-																m_FreeIndices.pop_front();
-												}
-												else
-												{
-																m_Generation.push_back( 0u );
-																index = m_Generation.size() - 1;
-																DENSURE( index < c_MaxEntities );
-												}
-												return CrateEntity( index, m_Generation[index] );
+								inline void RecycleEntity( Entity _Entity )
+								{
+												DENSURE( _Entity.m_Id < m_EntityKeyMasks.size() );
+												m_EntityKeyMasks[_Entity.m_Id].reset();
+												m_FreeIndices.emplace( _Entity.m_Id );
 								}
 
-								inline bool IsAlive( Entity _Entity )
+								inline const ComponentMask& GetComponentMaskForEntity( Entity _Entity )
 								{
-												return m_Generation[_Entity.Index()] == _Entity.Version();
+												DENSURE( _Entity.m_Id < m_EntityKeyMasks.size() );
+												return m_EntityKeyMasks[_Entity.m_Id];
 								}
 
-								inline void DestroyEntity( Entity _Entity )
+								inline void ActivateComponentBitForEntity( Entity _Entity, uint32 _BitIndex )
 								{
-												const uint32 Index = _Entity.Index();
-												++m_Generation[Index];
-												m_FreeIndices.push_back( Index );
+												DENSURE( _Entity.m_Id < m_EntityKeyMasks.size() );
+												m_EntityKeyMasks[_Entity.m_Id].set( _BitIndex, true );
 								}
 
+								inline void DeactivateComponentBitForEntity( Entity _Entity, uint32 _BitIndex )
+								{
+												DENSURE( _Entity.m_Id < m_EntityKeyMasks.size() );
+												m_EntityKeyMasks[_Entity.m_Id].set( _BitIndex, false );
+								}
 				private:
-								std::vector<uint8> m_Generation;
-								std::deque<uint32> m_FreeIndices;
+								std::queue<uint32> m_FreeIndices;
+								std::vector<ComponentMask> m_EntityKeyMasks;
 				};
 }
