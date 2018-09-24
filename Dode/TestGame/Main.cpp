@@ -45,6 +45,7 @@ public:
 				}
 
 private:
+
 				dode::Logger m_TestLogger;
 };
 
