@@ -36,6 +36,11 @@ public:
 				virtual void Update( const dode::World& _World, float _Dt ) override
 				{
 								DLOG_DEBUG( m_TestLogger ) << "Updating Test System - Number of Registered Entities: " << m_RegisteredEntities.size();
+
+								for ( size_t i = 0; i < m_RegisteredEntities.size(); i++ )
+								{
+												DLOG_DEBUG( m_TestLogger ) << "Updating Test System's Entity # " << m_RegisteredEntities[i].m_Id;
+								}
 				}
 
 private:
