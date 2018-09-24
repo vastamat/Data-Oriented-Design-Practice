@@ -19,6 +19,7 @@ public:
 				TestSystem()
 				{
 								m_SystemSignature.set( dode::GetIdOfComponentType<TestComponent>() );
+
 								m_TestLogger.AddSink( dode::CreateConsoleSink() );
 				}
 				~TestSystem()
@@ -33,7 +34,7 @@ public:
 				{
 								DLOG_DEBUG( m_TestLogger ) << "Uninitializing Test System";
 				}
-				virtual void Update( const dode::World& _World, float _Dt ) override
+				virtual void Update( dode::World& _World, float _Dt ) override
 				{
 								DLOG_DEBUG( m_TestLogger ) << "Updating Test System - Number of Registered Entities: " << m_RegisteredEntities.size();
 

@@ -18,7 +18,7 @@ namespace dode
 
 								virtual void Initialize() = 0;
 								virtual void Uninitialize() = 0;
-								virtual void Update( const World& _World, float _Dt ) = 0;
+								virtual void Update( World& _World, float _Dt ) = 0;
 
 								void RegisterEntity( Entity _Entity );
 								void UnregisterEntity( Entity _Entity );
