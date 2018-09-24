@@ -16,6 +16,7 @@ struct TestComponent : public dode::Component
 class TestSystem : public dode::System
 {
 public:
+
 				TestSystem()
 				{
 								m_SystemSignature.set( dode::GetIdOfComponentType<TestComponent>() );
