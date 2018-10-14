@@ -63,40 +63,54 @@ dode::Application MakeTestApp()
 
 				return testApp;
 }
+
+struct Trest
+{
+
+};
+
+struct TestLUL : Trest
+{
+				int head = 4;
+};
+
 int main()
 {
-				dode::Logger Logger;
+				std::array<std::unique_ptr<Trest>, 32> m_test;
+				std::cout << static_cast< TestLUL* >( m_test[5].get() )->head << std::endl;
+
+				/*dode::Logger Logger;
 				Logger.AddSink( dode::CreateConsoleSink() );
 
 				dode::Engine Engine;
 				Engine.SetApplication( MakeTestApp() );
-				Engine.Run();
+				Engine.Run();*/
 				
 				/*std::vector<dode::World> worlds;
 				dode::World testWorld("test");
 				worlds.emplace_back( "Test2" );
 				auto& world2 = worlds.back();*/
 
-				//dode::ThreadPool pool;
-				//for ( size_t i = 0; i <= std::thread::hardware_concurrency(); ++i )
-				//{
-				//				auto result = pool.Enqueue( []
-				//				{
-				//								size_t counter = 0;
-				//								while ( counter != 10 )
-				//								{
-				//												std::cout << "Thread Id: " << std::this_thread::get_id() << " counter = " << counter << std::endl;
-				//												counter++;
-				//								}
-				//								return counter;
-				//				} );
-				//				/*std::cout << "Before checking result validity" << std::endl;
-				//				if ( auto countedResult = result.get() )
-				//				{
-				//								std::cout << "Thread Id: " << std::this_thread::get_id() << " result = " << countedResult << std::endl;
-				//								assert( countedResult == 10 );
-				//				}*/
-				//}
+				/*dode::ThreadPool pool;
+				for ( size_t i = 0; i <= 8; ++i )
+				{
+								auto result = pool.Enqueue( []
+								{
+												size_t counter = 0;
+												while ( counter != 10 )
+												{
+																std::cout << "Thread Id: " << std::this_thread::get_id() << " counter = " << counter << std::endl;
+																counter++;
+												}
+												return counter;
+								} );
+								std::cout << "Before checking result validity" << std::endl;
+								if ( auto countedResult = result.get() )
+								{
+												std::cout << "Thread Id: " << std::this_thread::get_id() << " result = " << countedResult << std::endl;
+												assert( countedResult == 10 );
+								}
+				}*/
 
 				std::cin.get();
 				return 0;
